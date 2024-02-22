@@ -6,6 +6,9 @@ import re
 with open("spanish.json", "r") as f:
     rules = json.load(f)
 
+with open("telcontar-encoding.json", "r") as f:
+    telcontarcodes = json.load(f)
+
 # %%
 
 def greedymatch(substr, dic_re):
@@ -36,7 +39,7 @@ def reemplazar(texto, reemplazos):
 
 # %%
 def preprocess(texto):
-    return reemplazar(texto, rules["preprocess"])
+    return reemplazar(texto.lower(), rules["preprocess"])
 
 def maptengwar(texto):
     dic = {}
@@ -55,9 +58,16 @@ def cleanbrackets(tengwar):
     tengwar = tengwar.replace("{}", "")
     return tengwar
 
-def transcribe(texto):
+def encode(texto):
+    for (k,v) in telcontarcodes.items():
+        texto = texto.replace(k, v)
+    return texto
+
+def transcribe(texto, font="telcontar"):
     texto = preprocess(texto)
     texto = maptengwar(texto)
     texto = cleanbrackets(texto)
+    if font == "telcontar":
+        texto = encode(texto)
     return texto
 # %%
