@@ -1,3 +1,4 @@
+# coding: utf-8
 #%%
 import json
 import re
@@ -10,32 +11,39 @@ with open("telcontar-encoding.json", "r") as f:
     telcontarcodes = json.load(f)
 
 # %%
+def priorizaregex(patterns):
+    """
+    Ordena una colección de patrones de expresiones regulares de más a menos prioritarias:
+    Las más prioritarias son las que indican un comienzo (empieza por '^')
+    o final (acaban por '$'). Luego se priorizan por número de caracteres.
+    """
+    priorizadas = [x for x in patterns if x.startswith("^") or x.endswith("$")]
+    interiores = [x for x in patterns if x not in priorizadas]
+    priorizadas.sort(key=len, reverse=True)
+    interiores.sort(key=len, reverse=True)
+    priorizadas.extend(interiores)
+    return priorizadas
 
-def greedymatch(substr, dic_re):
-    regexp = ""
-    match = None
-    for pat in dic_re:
-        m = pat.match(substr)
-        if m is not None and len(pat.pattern) > len(regexp):
-            regexp = pat.pattern
-            match = m
-    return regexp, match
+def reemplazar_coincidencia(match, dicregex):
+    """
+    Busca entre las claves del diccionario `dicregex` una expresión regular (compilada)
+    `regex` que coincida con el texto capturado en `match`.
+    Si existe, devuelve el valor `match.expand(dicregex[regex])`;
+    si no, se devuelve el texto capturado de `match` sin modificar
+    """
+    for regex in dicregex:
+        m = regex.match(match.group())
+        if m is not None:
+            return match.expand(dicregex[regex])
+    return match.group()
+
 
 def reemplazar(texto, reemplazos):
-    # rep = dict((re.compile(k), v) for (k,v) in reemplazos.items())
-    rep = [re.compile(s) for s in reemplazos]
-    sout = ""
-    while len(texto) > 0:
-        regexp, match = greedymatch(texto, rep)
-        if match is None:
-            sout += texto[0]
-            texto = texto[1:]
-        else:
-            cut = match.span()[-1]
-            sout += re.sub(regexp, reemplazos[regexp], texto[:cut])
-            texto = texto[cut:]
-    return sout
-
+    dicregex = dict((re.compile(k), v) for (k,v) in reemplazos.items())
+    patterns = priorizaregex(reemplazos.keys())
+    pattern = re.compile("|".join(patterns))
+    return pattern.sub(lambda m : reemplazar_coincidencia(m, dicregex), texto)
+        
 
 # %%
 def preprocess(texto):
@@ -43,16 +51,16 @@ def preprocess(texto):
 
 def maptengwar(texto):
     dic = {}
+    # Reglas para palabras completas
     for (w, r) in rules["words"].items():
-        dic["^"+w+"$"] = r
-        dic["([^\\w])"+w+"$"] = "\\1"+r
-        dic["^"+w+"([^\\w])"] = r+"\\1"
-        dic["([^\\w])"+w+"([^\\w])"] = "\\1"+r+"\\2"
+        dic["(^|[^\\w])"+w+"($|[^\\w])"] = "\\1"+r+"\\2"
     dic.update(rules["map"])
     return reemplazar(texto, dic)
 
-def cleanbrackets(tengwar):
+def fixtengwar(tengwar):
     # vocales sueltas
+    if tengwar.startswith("["):
+        tengwar = "{telco}" + tengwar
     tengwar = tengwar.replace(" [", " {telco}[")
     tengwar = tengwar.replace("{}[", "{telco}[")
     tengwar = tengwar.replace("{}", "")
@@ -66,8 +74,8 @@ def encode(texto):
 def transcribe(texto, font="telcontar"):
     texto = preprocess(texto)
     texto = maptengwar(texto)
-    texto = cleanbrackets(texto)
+    texto = fixtengwar(texto)
     if font == "telcontar":
         texto = encode(texto)
     return texto
-# %%
+
