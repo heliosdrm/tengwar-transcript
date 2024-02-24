@@ -24,50 +24,38 @@ def priorizaregex(patterns):
     priorizadas.extend(interiores)
     return priorizadas
 
-def reemplazar_coincidencia(match, dicregex):
-    """
-    Busca entre las claves del diccionario `dicregex` una expresión regular (compilada)
-    `regex` que coincida con el texto capturado en `match`.
-    Si existe, devuelve el valor `match.expand(dicregex[regex])`;
-    si no, se devuelve el texto capturado de `match` sin modificar
-    """
-    for regex in dicregex:
-        m = regex.fullmatch(match.group())
-        if m is not None:
-            return match.expand(dicregex[regex])
-    return match.group()
-
 def addmatches(oldmatches, newmatches):
     """
-    Añadir "Matches" a una lista, seleccionando solo los que no se solapan.
+    Añadir tuplas de "Matches" acompañadas con las cadenas de reemplazo a una lista,
+    seleccionando solo los casos en los que los "Matches" no se solapan.
     """
     candidatos = [m for m in newmatches] # copiar lista
-    for m in candidatos.copy():
+    for (m, r) in candidatos.copy():
         first, last = m.span()
         for o in oldmatches:
-            a, b = o.span()
+            a, b = o[0].span()
             if (a <= first < b) or (a < last <= b): # overlaps
-                candidatos.remove(m)
+                candidatos.remove((m, r))
                 break
     oldmatches.extend(candidatos)
 
 def reemplazar(texto, reemplazos):
-    dicregex = dict((re.compile(k), v) for (k,v) in reemplazos.items())
     patterns = priorizaregex(reemplazos.keys())
     matches = []
     for pat in patterns:
-        newmatches = re.finditer(pat, texto)
-        addmatches(matches, newmatches)
+        newmatches = [m for m in re.finditer(pat, texto)]
+        newreplacements = [m.expand(reemplazos[pat]) for m in newmatches]
+        addmatches(matches, zip(newmatches, newreplacements))
     if len(matches) == 0:
         return texto
-    matches.sort(key=lambda m: m.span()[0]) # ordenar
+    matches.sort(key=lambda mr: mr[0].span()[0]) # ordenar
     tokens = []
     posicion = 0
-    for m in matches:
+    for (m, r) in matches:
         first, last = m.span()
         if posicion < first:
             tokens.append(texto[posicion:first])
-        tokens.append(reemplazar_coincidencia(m, dicregex))
+        tokens.append(r)
         posicion = last
     tokens.append(texto[posicion:])
     return "".join(tokens)
