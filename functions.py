@@ -4,10 +4,10 @@ import json
 import re
 
 #%%
-with open("spanish.json", "r", encoding="utf-8") as f:
+with open("modes/spanish.json", "r", encoding="utf-8") as f:
     rules = json.load(f)
 
-with open("telcontar-encoding.json", "r", encoding="utf-8") as f:
+with open("encodings/telcontar-encoding.json", "r", encoding="utf-8") as f:
     telcontarcodes = json.load(f)
 
 # %%
