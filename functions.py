@@ -53,8 +53,8 @@ def maptengwar(texto):
 
 def cleanbrackets(tengwar):
     # vocales sueltas
-    tengwar = tengwar.replace(" [", " {short-carrier}[")
-    tengwar = tengwar.replace("{}[", "{short-carrier}[")
+    tengwar = tengwar.replace(" [", " {telco}[")
+    tengwar = tengwar.replace("{}[", "{telco}[")
     tengwar = tengwar.replace("{}", "")
     return tengwar
 
