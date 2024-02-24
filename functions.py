@@ -32,18 +32,45 @@ def reemplazar_coincidencia(match, dicregex):
     si no, se devuelve el texto capturado de `match` sin modificar
     """
     for regex in dicregex:
-        m = regex.match(match.group())
+        m = regex.fullmatch(match.group())
         if m is not None:
             return match.expand(dicregex[regex])
     return match.group()
 
+def addmatches(oldmatches, newmatches):
+    """
+    Añadir "Matches" a una lista, seleccionando solo los que no se solapan.
+    """
+    candidatos = [m for m in newmatches] # copiar lista
+    for m in candidatos.copy():
+        first, last = m.span()
+        for o in oldmatches:
+            a, b = o.span()
+            if (a <= first < b) or (a < last <= b): # overlaps
+                candidatos.remove(m)
+                break
+    oldmatches.extend(candidatos)
 
 def reemplazar(texto, reemplazos):
     dicregex = dict((re.compile(k), v) for (k,v) in reemplazos.items())
     patterns = priorizaregex(reemplazos.keys())
-    pattern = re.compile("|".join(patterns))
-    return pattern.sub(lambda m : reemplazar_coincidencia(m, dicregex), texto)
-        
+    matches = []
+    for pat in patterns:
+        newmatches = re.finditer(pat, texto)
+        addmatches(matches, newmatches)
+    if len(matches) == 0:
+        return texto
+    matches.sort(key=lambda m: m.span()[0]) # ordenar
+    tokens = []
+    posicion = 0
+    for m in matches:
+        first, last = m.span()
+        if posicion < first:
+            tokens.append(texto[posicion:first])
+        tokens.append(reemplazar_coincidencia(m, dicregex))
+        posicion = last
+    tokens.append(texto[posicion:])
+    return "".join(tokens)
 
 # %%
 def preprocess(texto):
