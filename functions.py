@@ -81,6 +81,8 @@ def maptengwar(texto):
     # vocales sueltas
     if tengwar.startswith("["):
         tengwar = "{telco}" + tengwar
+    # invertir silme con tehtar
+    tengwar = tengwar.replace("{silme}[", "{silme-nuquerna}[")
     # otros ajustes para hacer usable en Tecendil
     tengwar = tengwar.replace(" [", " {telco}[")
     tengwar = tengwar.replace("{}[", "{telco}[")
@@ -99,3 +101,5 @@ def transcribe(texto, font="telcontar"):
         texto = encode(texto)
     return texto
 
+
+# %%
