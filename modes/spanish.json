@@ -36,7 +36,11 @@
     "qüí": "kuí",
 
     "^r": "rr",
-    "([^AaEeIiOoUuÁáÉéÍíÓóÚúRr])r": "\\1rr"
+    "([^AaEeIiOoUuÁáÉéÍíÓóÚúRr])r": "\\1rr",
+
+    "y([AaEeIiOoUuÁáÉéÍíÓóÚú])": "yy\\1",
+    "([AaEeIiOoÁáÉéÍíÓó])y$": "\\1i",
+    "([AaEeIiOoÁáÉéÍíÓó])y([^AaEeIiOoUuÁáÉéÍíÓóÚú])": "\\1i\\2"
   },
 
   "map": {
@@ -46,36 +50,32 @@
     "i": "[dot-above]{}",
     "o": "[right-curl]{}",
     "u": "[left-curl]{}",
+    "y": "[breve]",
 
     "á": "{aara}[triple-dot-above]{}",
     "é": "[double-acute]{}",
     "í": "{aara}[dot-above]{}",
     "ó": "[double-right-curl]{}",
     "ú": "[double-left-curl]{}",
+    "ý": "{aara}[breve]{}",
 
     "ai": "{yanta}[triple-dot-above]{}",
-    "ay$": "{yanta}[triple-dot-above]{}",
-    "ay([^\\w])": "{yanta}[triple-dot-above]\\1",
     "au": "{uure}[triple-dot-above]{}",
     "ái": "{aara}[triple-dot-above]{yanta}{}",
     "áu": "{aara}[triple-dot-above]{uure}{}",
 
     "ei": "{yanta}[acute]{}",
-    "ey$": "{yanta}[acute]{}",
-    "ey([^\\w])": "{yanta}[acute]{}\\1",
     "eu": "{uure}[acute]{}",
     "éi": "{yanta}[double-acute]{}",
     "éu": "{uure}[double-acute]{}",
 
     "oi": "{yanta}[right-curl]{}",
-    "oy$": "{yanta}[right-curl]{}",
-    "oy([^\\w])": "{yanta}[right-curl]{}\\1",
     "ou": "{uure}[right-curl]{}",
     "ói": "{yanta}[double-acute]{}",
     "óu": "{uure}[double-acute]{}",
 
     "uy$": "{yanta}[left-curl]{}",
-    "uy([^\\w])": "{yanta}[left-curl]{}\\1",
+    "úy$": "{yanta}[double-left-curl]{}",
 
     "ia": "[double-dot-below][triple-dot-above]{}",
     "ie": "[double-dot-below][acute]{}",
@@ -98,46 +98,34 @@
     "uí": "[over-twist]{aara}[dot-above]{}",
 
     "iai": "[double-dot-below]{yanta}[triple-dot-above]{}",
-    "iay$": "[double-dot-below]{yanta}[triple-dot-above]{}",
-    "iay([^\\w])": "[double-dot-below]{yanta}[triple-dot-above]{}\\1",
     "iau": "[double-dot-below]{uure}[triple-dot-above]{}",
     "iái": "[double-dot-below]{aara}[triple-dot-above]{yanta}{}",
     "iáu": "[double-dot-below]{aara}[triple-dot-above]{uure}{}",
 
     "iei": "[double-dot-below]{yanta}[acute]{}",
-    "iey$": "[double-dot-below]{yanta}[acute]{}",
-    "iey([^\\w])": "[double-dot-below]{yanta}[acute]{}\\1",
     "ieu": "[double-dot-below]{uure}[acute]{}",
     "iéi": "[double-dot-below]{yanta}[double-acute]{}",
     "iéu": "[double-dot-below]{uure}[double-acute]{}",
 
     "ioi": "[double-dot-below]{yanta}[right-curl]{}",
-    "ioy$": "[double-dot-below]{yanta}[right-curl]{}",
-    "ioy([^\\w])": "[double-dot-below]{yanta}[right-curl]{}\\1",
     "iou": "[double-dot-below]{uure}[right-curl]{}",
     "iói": "[double-dot-below]{yanta}[double-acute]{}",
     "ióu": "[double-dot-below]{uure}[double-acute]{}",
 
     "iuy$": "[double-dot-below]{yanta}[left-curl]{}",
-    "iuy([^\\w])": "[double-dot-below]{yanta}[left-curl]{}\\1",
+    "iúy$": "[double-dot-below]{yanta}[double-left-curl]{}",
 
     "uai": "[over-twist]{yanta}[triple-dot-above]{}",
-    "uay$": "[over-twist]{yanta}[triple-dot-above]{}",
-    "uay([^\\w])": "[over-twist]{yanta}[triple-dot-above]{}\\1",
     "uau": "[over-twist]{uure}[triple-dot-above]{}",
     "uái": "[over-twist]{aara}[triple-dot-above]{yanta}{}",
     "uáu": "[over-twist]{aara}[triple-dot-above]{uure}{}",
 
     "uei": "[over-twist]{yanta}[acute]{}",
-    "uey$": "[over-twist]{yanta}[acute]{}",
-    "uey([^\\w])": "[over-twist]{yanta}[acute]{}\\1",
     "ueu": "[over-twist]{uure}[acute]{}",
     "uéi": "[over-twist]{yanta}[double-acute]{}",
     "uéu": "[over-twist]{uure}[double-acute]{}",
 
     "uoi": "[over-twist]{yanta}[right-curl]{}",
-    "uoy$": "[over-twist]{yanta}[right-curl]{}",
-    "uoy([^\\w])": "[over-twist]{yanta}[right-curl]{}\\1",
     "uou": "[over-twist]{uure}[right-curl]{}",
     "uói": "[over-twist]{yanta}[double-acute]{}",
     "uóu": "[over-twist]{uure}[double-acute]{}",
@@ -236,7 +224,7 @@
     "v": "{ampa}",
     "w": "{vala}",
     "x": "{quesse}[right-curl-below]",
-    "y": "{anca}",
+    "yy": "{anca}",
     "z": "{thuule}",
 
     "nt": "{tinco}[bar-above]",
