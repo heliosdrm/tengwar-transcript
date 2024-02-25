@@ -233,7 +233,28 @@
     "nk": "{quesse}[bar-above]",
     "nd": "{ando}[bar-above]",
     "mb": "{umbar}[bar-above]",
-    "ng": "{ungwe}[bar-above]"
+    "ng": "{ungwe}[bar-above]",
+
+    "0": "{zero}",
+    "1": "{one}",
+    "2": "{two}",
+    "3": "{three}",
+    "4": "{four}",
+    "5": "{five}",
+    "6": "{six}",
+    "7": "{seven}",
+    "8": "{eight}",
+    "9": "{nine}",
+
+    ",": "{pusta}",
+    "\\.": "{double-pusta}",
+    ":": "{triple-pusta}",
+    ";": "{wide-dash}",
+    "-": "{dash}",
+    "\\?": "{question-mark}",
+    "!": "{exclamation-mark}",
+    "\\(": "{left-parenthesis}",
+    "\\)": "{left-parenthesis}"
   },
 
   "words": {
