@@ -117,6 +117,7 @@ def encode(texto):
     return texto
 
 def transcribe(texto, font="telcontar"):
+    texto = encode(texto)
     texto = preprocess(texto)
     texto = maptengwar(texto)
     if font == "telcontar":
