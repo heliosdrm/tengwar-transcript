@@ -219,7 +219,6 @@
     "r": "{oore}",
     "s": "{silme}",
     "s$": "{hook}",
-    "s([^\\w])": "{hook}\\1",
     "t": "{tinco}",
     "v": "{ampa}",
     "w": "{vala}",

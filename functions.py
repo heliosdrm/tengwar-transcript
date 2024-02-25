@@ -4,8 +4,30 @@ import json
 import re
 
 #%%
+
+def extdelimiters(dicregex):
+    """
+    Amplía un diccionario de expresiones regulares haciendo para que
+    los delimitadores de posicion ("^", "$") también sean delimitadores de palabras
+    (si no los hay ya)
+    """
+    for k in dicregex.copy():
+        if k.startswith("^"):
+            kb = "\\b"+k[1:]
+            if not kb not in dicregex:
+                dicregex[kb] = dicregex[k]
+    for k in dicregex.copy():
+        if k.endswith("$"):
+            kb = k[:-1]+"\\b"
+            if kb not in dicregex:
+                dicregex[kb] = dicregex[k]
+    return dicregex
+
 with open("modes/spanish.json", "r", encoding="utf-8") as f:
     rules = json.load(f)
+
+extdelimiters(rules["preprocess"])
+extdelimiters(rules["map"])
 
 with open("encodings/telcontar-encoding.json", "r", encoding="utf-8") as f:
     telcontarcodes = json.load(f)
@@ -75,7 +97,7 @@ def maptengwar(texto):
     dic = {}
     # Reglas para palabras completas
     for (w, r) in rules["words"].items():
-        dic["(^|[^\\w])"+w+"($|[^\\w])"] = "\\1"+r+"\\2"
+        dic["(^|\\b)"+w+"($|^\\b)"] = r
     dic.update(rules["map"])
     tengwar = reemplazar(texto, dic)
     # vocales sueltas
