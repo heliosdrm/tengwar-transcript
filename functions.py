@@ -106,7 +106,7 @@ def maptengwar(texto):
     # invertir silme con tehtar
     tengwar = tengwar.replace("{silme}[", "{silme-nuquerna}[")
     # otros ajustes para hacer usable en Tecendil
-    tengwar = tengwar.replace(" [", " {telco}[")
+    tengwar = re.sub("(\\s)\\[", "\\1{telco}[", tengwar)
     tengwar = tengwar.replace("{}[", "{telco}[")
     tengwar = tengwar.replace("{}", "")
     return tengwar
