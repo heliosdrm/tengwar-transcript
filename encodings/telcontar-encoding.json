@@ -69,6 +69,7 @@
     "[double-right-curl]" : "\ue04a\ue04a",
     "[double-left-curl]" : "\ue04c\ue04c",
 
+    "[tilde-above]" : "\ue050",
     "[bar-above]" : "\ue050",
     "[bar-below]" : "\ue051",
     "[over-twist]" : "\ue052",

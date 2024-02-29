@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+//
+// DEFAULT OPTIONS
+//
+// -----------------------------------------------------------------------------
+
+{
+    "preprocess": {
+
+    },
+
+    "map": {
+        // Vowels
+        "a": "[triple-dot-above]{}",
+        "e": "[acute]{}",
+        "i": "[dot-above]{}",
+        "o": "[right-curl]{}",
+        "u": "[left-curl]{}",
+        "y": "[breve]",
+
+        // Numerals
+        "0": "{zero}",
+        "1": "{one}",
+        "2": "{two}",
+        "3": "{three}",
+        "4": "{four}",
+        "5": "{five}",
+        "6": "{six}",
+        "7": "{seven}",
+        "8": "{eight}",
+        "9": "{nine}",
+        
+        // Punctuation
+        ",": "{pusta}",
+        "\\.": "{double-pusta}",
+        ":": "{triple-pusta}",
+        ";": "{wide-dash}",
+        "-": "{dash}",
+        "\\?": "{question-mark}",
+        "!": "{exclamation-mark}",
+        "\\(": "{left-parenthesis}",
+        "\\)": "{left-parenthesis}"
+    }
+}
+  

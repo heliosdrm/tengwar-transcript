@@ -1,7 +1,7 @@
 # coding: utf-8
 #%%
 from os.path import dirname, join as joinpath
-import json
+import jsonc
 import re
 
 #%%
@@ -24,15 +24,35 @@ def extdelimiters(dicregex):
                 dicregex[kb] = dicregex[k]
     return dicregex
 
+def pythonregex(dicregex):
+    """
+    Regulariza diccionario de expresiones regulares
+    para hacerlas consistentes con su uso en Python.
+    """
+    # regularizar los casos en los que el patrón esté entre barras
+    regularizar = [k for k in dicregex if k[0]==k[-1]=="/"]
+    for regex in regularizar:
+        dicregex[regex[1:-1]] = dicregex.pop(regex)
+    # cambiar sintaxis de grupo capturado
+    for (regex, substring) in dicregex.items():
+        dicregex[regex] = re.sub(r"\$(\d+)", lambda m: m.expand(r"\\\1"), substring)
+
 cdir = dirname(__file__)
-with open(joinpath(cdir, "modes", "spanish.json"), "r", encoding="utf-8") as f:
-    rules = json.load(f)
+
+with open(joinpath(cdir, "modes", "spanish.jsonc"), "r", encoding="utf-8") as f:
+    rules = jsonc.load(f)
+
+with open(joinpath(cdir, "modes", "default.jsonc"), "r", encoding="utf-8") as f:
+    defaultrules = jsonc.load(f)
+    for r in ["preprocess", "map"]:
+        rules[r] = {**defaultrules[r], **rules[r]}
+    pythonregex(rules["preprocess"])
 
 extdelimiters(rules["preprocess"])
 extdelimiters(rules["map"])
 
 with open(joinpath(cdir, "encodings", "telcontar-encoding.json"), "r", encoding="utf-8") as f:
-    telcontarcodes = json.load(f)
+    telcontarcodes = jsonc.load(f)
 
 # %%
 def priorizaregex(patterns):
