@@ -1,5 +1,6 @@
 # coding: utf-8
 #%%
+from os.path import dirname, join as joinpath
 import json
 import re
 
@@ -23,13 +24,14 @@ def extdelimiters(dicregex):
                 dicregex[kb] = dicregex[k]
     return dicregex
 
-with open("modes/spanish.json", "r", encoding="utf-8") as f:
+cdir = dirname(__file__)
+with open(joinpath(cdir, "modes", "spanish.json"), "r", encoding="utf-8") as f:
     rules = json.load(f)
 
 extdelimiters(rules["preprocess"])
 extdelimiters(rules["map"])
 
-with open("encodings/telcontar-encoding.json", "r", encoding="utf-8") as f:
+with open(joinpath(cdir, "encodings", "telcontar-encoding.json"), "r", encoding="utf-8") as f:
     telcontarcodes = json.load(f)
 
 # %%
