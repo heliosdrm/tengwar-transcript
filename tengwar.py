@@ -15,6 +15,8 @@ if __name__ == "__main__":
         o copiarse al portapapeles.
         
         La codificación de los textos por defecto es UTF-8.
+        Véanse otras codificaciones de texto que pueden emplearse con Python en:
+        https://docs.python.org/3/library/codecs.html#standard-encodings
 
         Más información: https://github.com/heliosdrm/tengwar-transcript
         """
@@ -36,7 +38,7 @@ if __name__ == "__main__":
     
     output = transcribe(input)
     
-    if args.print is True:
+    if args.print:
         print(output)
 
     if args.clipboard:

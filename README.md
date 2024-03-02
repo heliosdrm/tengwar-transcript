@@ -28,11 +28,14 @@ argumentos opcionales:
   -c, --clipboard       Copiar la transcripción al portapapeles
 ```
 
-## Modos de transcripción y codificación de *tengwar*
+## Modos de transcripción y codificación de texto y *tengwar*
 
 Actualmente las transcripciones se hacen únicamente según el [modo de escritura para castellano](http://lambenor.free.fr/tengwar/espanol_2006),
 según la [propuesta de codificación de *tengwar* para Unicode](https://www.evertype.com/standards/iso10646/pdf/tengwar.pdf)
 con las adaptaciones de la fuente [Tengwar Telcontar](https://freetengwar.sourceforge.net/tengtelc.html).
+
+La codificación de los textos considerada por defecto es [UTF-8](https://es.wikipedia.org/wiki/UTF-8). Véanse otras codificaciones de texto que pueden emplearse con Python en:
+https://docs.python.org/3/library/codecs.html#standard-encodings
 
 ## Consejos de uso
 
@@ -55,6 +58,6 @@ Las reglas para hacer las transcripciones se definen en archivos `jsonc` que sig
 
 El programa está diseñado para realizar las transcripciones de la manera más parecida posible a como se hace en Tecendil, aunque está desarrollado de manera independiente, y pueden existir diferencias.
 
-Si encuentras discrepancias entre los resultado de Tecendil y de este programa, siéntete libre de informar mediante un [Pull Request](https://github.com/heliosdrm/tengwar-transcript/issues).
+Si encuentras discrepancias entre los resultado de Tecendil y de este programa, siéntete libre de informar en la sección de "Problemas" ([Issues](https://github.com/heliosdrm/tengwar-transcript/issues)) —y si te animas, incluso de proponer mejoras del código a través [Pull Requests](https://github.com/heliosdrm/tengwar-transcript/pulls).
 
 Por otro lado, si encuentras algún error en la transcripción que también ocurra en Tecendil, es preferible reportarlo en el [repositorio de Tecendil](https://github.com/arnog/tecendil-js) —que tratará de sincronizarse con este en la medida de lo posible—.
